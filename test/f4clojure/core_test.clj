@@ -25,3 +25,17 @@
     1 (nth-elem [1 2 3 4] 0)
     nil (nth-elem [] 1)
     nil (nth-elem [1 2 3] 1000)))
+
+(deftest test-my-count
+  (are [x y] (= x y)
+    1 (my-count [1])
+    0 (my-count [])
+    4 (my-count [1 2 2 2])
+    0 (my-count nil)))
+
+
+(deftest test-reverse-seq
+  (are [x y] (= x y)
+    '(3 2 1) (reverse-seq [1 2 3])
+    '(1) (reverse-seq [1])
+    '() (reverse-seq [])))
