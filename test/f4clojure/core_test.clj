@@ -63,3 +63,9 @@
   (are [x y] (= x y)
     '([1 4 7] [2 5 8] [3 6 nil]) (reverse-interleave [1 2 3 4 5 6 7 8] 3)
     '((0 5) (1 6) (2 7) (3 8) (4 9)) (reverse-interleave (range 10) 5)))
+
+(deftest test-type-split
+  (are [x y] (= x y)
+    '([1 2 3] [:a :b :c]) (split-by-type [1 :a 2 :b 3 :c])
+    '([:a :b] ["foo" "bar"]) (split-by-type [:a "foo"  "bar" :b])
+    '([[1 2] [3 4]] [:a :b] [5 6]) (split-by-type [[1 2] :a [3 4] 5 6 :b])))

@@ -90,3 +90,16 @@
           (fn [index item]
             (let [to-conj (nth first-n index nil)]
               (conj item to-conj))) chunks))))))
+
+(defn split-by-type
+  [items]
+  (loop [items items type-map {}]
+    (if (empty? items)
+      (vals type-map)
+      (let [f (first items)
+            r (rest items)
+            t (type f)]
+        (if (not (contains? type-map t))
+          (recur r (assoc type-map t [f]))
+          (recur r (assoc type-map t (conj (type-map t) f))))))))
+           
