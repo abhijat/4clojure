@@ -45,3 +45,47 @@
   [f]
   (fn [& args]
     (apply f (reverse args))))
+
+(defn dispatch-rotate
+  [_ times]
+  (cond
+    (> times 0) :counter-clock-wise
+    (< times 0) :clock-wise))
+
+(defmulti rotation dispatch-rotate)
+
+(defmethod rotation :counter-clock-wise
+  [s times]
+  (loop [s s times times]
+    (if (= 0 times)
+      s
+      (recur
+       (conj (vec (rest s)) (first s))
+       (dec times)))))
+
+(defmethod rotation :clock-wise
+  [s times]
+  (loop [s s times times]
+    (if (= 0 times)
+      s
+      (recur
+       (cons (last s) (butlast s))
+       (inc times)))))
+
+(defn reverse-interleave
+  [items num-chunks]
+  ;; Start with num-chunks empty vectors, which will hold the items later
+  (loop [items items
+         chunks (repeat num-chunks [])]
+    (if (empty? items)
+      chunks
+      ;; split-at lets us pick off the items which need to be pushed into chunks
+      (let [[first-n rest-n] (split-at num-chunks items)]
+        (recur
+         rest-n
+         ;; map-indexed will map over a collection with index
+         ;; we are basically taking the nth item from first-n and pushing it to the nth chunk
+         (map-indexed
+          (fn [index item]
+            (let [to-conj (nth first-n index nil)]
+              (conj item to-conj))) chunks))))))

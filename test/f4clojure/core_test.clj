@@ -51,3 +51,15 @@
     true ((flip-order >) 7 8)
     "hello world" (str "hello" " " "world")
     "world hello" ((flip-order str) "hello" " " "world")))
+
+(deftest test-rotate-seq
+  (let [s [1 2 3 4 5]]
+    (are [x y] (= x y)
+      [3 4 5 1 2] (rotation s 2)
+      s (rotation s 5)
+      [4 5 1 2 3] (rotation s -2))))
+
+(deftest test-reverse-interleave
+  (are [x y] (= x y)
+    '([1 4 7] [2 5 8] [3 6 nil]) (reverse-interleave [1 2 3 4 5 6 7 8] 3)
+    '((0 5) (1 6) (2 7) (3 8) (4 9)) (reverse-interleave (range 10) 5)))
