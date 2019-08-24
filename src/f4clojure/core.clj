@@ -98,8 +98,8 @@
       (vals type-map)
       (let [f (first items)
             r (rest items)
-            t (type f)]
-        (recur r
-               (assoc type-map
-                      t
-                      (conj (or (type-map t) []) f)))))))
+            t (type f)
+            items-for-type (or (type-map t) [])]
+        (recur
+         r
+         (assoc type-map t (conj items-for-type f)))))))
