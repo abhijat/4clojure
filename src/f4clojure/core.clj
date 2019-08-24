@@ -99,7 +99,7 @@
       (let [f (first items)
             r (rest items)
             t (type f)]
-        (if (not (contains? type-map t))
-          (recur r (assoc type-map t [f]))
-          (recur r (assoc type-map t (conj (type-map t) f))))))))
-           
+        (recur r
+               (assoc type-map
+                      t
+                      (conj (or (type-map t) []) f)))))))
