@@ -39,3 +39,15 @@
     '(3 2 1) (reverse-seq [1 2 3])
     '(1) (reverse-seq [1])
     '() (reverse-seq [])))
+
+(deftest test-sum-up
+  (are [x y] (= x y)
+    0 (sum-up [1 -1 2 -2])
+    10 (sum-up [1 2 3 4])))
+
+(deftest test-flip-order
+  (are [x y] (= x y)
+    false (> 7 8)
+    true ((flip-order >) 7 8)
+    "hello world" (str "hello" " " "world")
+    "world hello" ((flip-order str) "hello" " " "world")))

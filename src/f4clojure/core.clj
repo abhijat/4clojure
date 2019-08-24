@@ -33,3 +33,15 @@
     (if (empty? s)
       rev
       (recur (rest s) (cons (first s) rev)))))
+
+(defn sum-up
+  [s]
+  (loop [s s total 0]
+    (if (empty? s)
+      total
+      (recur (rest s) (+ (first s) total)))))
+
+(defn flip-order
+  [f]
+  (fn [& args]
+    (apply f (reverse args))))
