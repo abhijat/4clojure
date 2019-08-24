@@ -84,7 +84,8 @@
         (recur
          rest-n
          ;; map-indexed will map over a collection with index
-         ;; we are basically taking the nth item from first-n and pushing it to the nth chunk
+         ;; we are basically taking the nth item from first-n
+         ;; and pushing it to the nth chunk
          (map-indexed
           (fn [index item]
             (let [to-conj (nth first-n index nil)]
