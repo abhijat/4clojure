@@ -91,3 +91,9 @@
   (are [x y] (= x y)
     [[0 1] [2 3] [4 5] [6 7] [8 9]] (part-seq 2 (range 10))
     [[0 1 2 3] [4 5 6 7]] (part-seq 4 (range 10))))
+
+(deftest test-juxtapose
+  (are [x y] (= x y)
+    [21 6 1] ((juxtapose + max min) 2 3 5 1 6 4)
+    ["HELLO" 5] ((juxtapose #(.toUpperCase %) count) "hello")
+    [2 6 4] ((juxtapose :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10})))

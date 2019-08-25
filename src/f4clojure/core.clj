@@ -143,3 +143,8 @@
       chunks
       (let [[a b] (split-at size items)]
         (recur b (conj chunks a))))))
+
+(defn juxtapose
+  [& functions]
+  (fn [& args]
+    (map #(apply % args) functions)))
