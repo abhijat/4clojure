@@ -86,3 +86,8 @@
     5 ((composer count last) ["aaaa" "bbbbb" "ccccc"])
     100 ((composer (partial + 99) first) [1 :a :x])
     false ((composer empty? first reverse) [[] [2] [444]])))
+
+(deftest test-part-seq
+  (are [x y] (= x y)
+    [[0 1] [2 3] [4 5] [6 7] [8 9]] (part-seq 2 (range 10))
+    [[0 1 2 3] [4 5 6 7]] (part-seq 4 (range 10))))

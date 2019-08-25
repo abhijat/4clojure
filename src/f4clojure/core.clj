@@ -134,3 +134,12 @@
        (fn [& args]
          ((last funcs) (apply composed args)))
        (butlast funcs)))))
+
+(defn part-seq
+  [size items]
+  (loop [items items
+         chunks []]
+    (if (< (count items) size)
+      chunks
+      (let [[a b] (split-at size items)]
+        (recur b (conj chunks a))))))
