@@ -1,6 +1,7 @@
 (ns f4clojure.core
   (:gen-class))
 
+;; http://www.4clojure.com/problem/19
 (defn last-element-in-sequence
   [sequence] 
  (loop [f (first sequence)
@@ -9,10 +10,12 @@
       f
       (recur (first r) (rest r)))))
 
+;; http://www.4clojure.com/problem/20
 (defn penultimate
   [elems]
   (nth (reverse elems) 1 nil))
 
+;; http://www.4clojure.com/problem/21
 (defn nth-elem
   [elems n]
   (loop [elems elems n n]
@@ -20,6 +23,7 @@
       (first elems)
       (recur (rest elems) (dec n)))))
 
+;; http://www.4clojure.com/problem/22
 (defn my-count
   [elems]
   (loop [elems elems counter 0]
@@ -27,6 +31,7 @@
       counter
       (recur (rest elems) (inc counter)))))
 
+;; http://www.4clojure.com/problem/23
 (defn reverse-seq
   [s]
   (loop [s s rev []]
@@ -34,6 +39,7 @@
       rev
       (recur (rest s) (cons (first s) rev)))))
 
+;; http://www.4clojure.com/problem/24
 (defn sum-up
   [s]
   (loop [s s total 0]
@@ -41,6 +47,7 @@
       total
       (recur (rest s) (+ (first s) total)))))
 
+;; http://www.4clojure.com/problem/46
 (defn flip-order
   [f]
   (fn [& args]
@@ -52,6 +59,7 @@
     (> times 0) :counter-clock-wise
     (< times 0) :clock-wise))
 
+;; http://www.4clojure.com/problem/44
 (defmulti rotation dispatch-rotate)
 
 (defmethod rotation :counter-clock-wise
@@ -72,6 +80,7 @@
        (cons (last s) (butlast s))
        (inc times)))))
 
+;; http://www.4clojure.com/problem/43
 (defn reverse-interleave
   [items num-chunks]
   ;; Start with num-chunks empty vectors, which will hold the items later
@@ -91,6 +100,7 @@
             (let [to-conj (nth first-n index nil)]
               (conj item to-conj))) chunks))))))
 
+;; http://www.4clojure.com/problem/50
 (defn split-by-type
   [items]
   (loop [items items type-map {}]
@@ -104,6 +114,7 @@
          r
          (assoc type-map t (conj items-for-type f)))))))
 
+;; http://www.4clojure.com/problem/55
 (defn count-items
   [items]
   (loop [items items freq {}]
@@ -114,6 +125,7 @@
             current-count (or (freq f) 0)]
         (recur r (assoc freq f (inc current-count)))))))
 
+;; http://www.4clojure.com/problem/56
 (defn remove-dups
   [items]
   (loop [items items uniques []]
@@ -124,6 +136,7 @@
             new-uniques (if f-in-uniques uniques (conj uniques f))]
         (recur (rest items) new-uniques)))))
 
+;; http://www.4clojure.com/problem/58
 (defn composer
   [& funcs]
   (loop [composed (last funcs)
@@ -135,6 +148,7 @@
          ((last funcs) (apply composed args)))
        (butlast funcs)))))
 
+;; http://www.4clojure.com/problem/54
 (defn part-seq
   [size items]
   (loop [items items
@@ -144,14 +158,17 @@
       (let [[a b] (split-at size items)]
         (recur b (conj chunks a))))))
 
+;; http://www.4clojure.com/problem/59
 (defn juxtapose
   [& functions]
   (fn [& args]
     (map #(apply % args) functions)))
 
+;; http://www.4clojure.com/problem/70
 (defn split-sentence-and-sort
   [sentence]
-  (sort-by #(.toLowerCase %) (re-seq #"[a-zA-Z0-9]+" sentence)))
+  (sort-by #(.toLowerCase %) (re-seq #"[a-zA-Z0-9]+" sentence))) ; not sure if using regexes is allowed in problems
+
 
 (defn prime?
   [num]
@@ -160,6 +177,7 @@
    (some #(= (rem num %) 0)
          (range 2 limit)))))
 
+;; http://www.4clojure.com/problem/67
 (defn n-primes
   [n]
   (loop [n n current 2 primes []]
