@@ -102,3 +102,8 @@
   (are [x y] (= x y)
     ["a" "conundrum" "is" "quite" "This"] (split-sentence-and-sort "This is quite, a conundrum!")
     ["fall" "follies" "foolish" "Fools" "for"] (split-sentence-and-sort  "Fools fall for foolish follies.")))
+
+(deftest test-n-primes
+  (are [x y] (= x y)
+    [2 3 5 7] (n-primes 10)
+    [2 3 5 7 11 13 17 19] (n-primes 20)))

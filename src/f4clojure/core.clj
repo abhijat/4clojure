@@ -152,3 +152,18 @@
 (defn split-sentence-and-sort
   [sentence]
   (sort-by #(.toLowerCase %) (re-seq #"[a-zA-Z0-9]+" sentence)))
+
+(defn prime?
+  [num]
+  (let [limit (inc (quot num 2))]
+  (nil?
+   (some #(= (rem num %) 0)
+         (range 2 limit)))))
+
+(defn n-primes
+  [n]
+  (loop [n n current 2 primes []]
+    (if (= 2 n) ; because we start at 2, we should end early
+      primes
+      (recur (dec n) (inc current)
+             (if (prime? current) (conj primes current) primes)))))
