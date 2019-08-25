@@ -148,3 +148,7 @@
   [& functions]
   (fn [& args]
     (map #(apply % args) functions)))
+
+(defn split-sentence-and-sort
+  [sentence]
+  (sort-by #(.toLowerCase %) (re-seq #"[a-zA-Z0-9]+" sentence)))
