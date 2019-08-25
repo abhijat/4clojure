@@ -124,4 +124,13 @@
             new-uniques (if f-in-uniques uniques (conj uniques f))]
         (recur (rest items) new-uniques)))))
 
-          
+(defn composer
+  [& funcs]
+  (loop [composed (last funcs)
+         funcs (butlast funcs)]
+    (if (empty? funcs)
+      composed
+      (recur
+       (fn [& args]
+         ((last funcs) (apply composed args)))
+       (butlast funcs)))))

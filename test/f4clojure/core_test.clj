@@ -78,4 +78,11 @@
 (deftest test-remove-dups
   (are [x y] (= x y)
     [1 2] (remove-dups [1 2 1 2 1 2 1 1 1 1 1 2 2 2 2 2])
-    [1 2 3] (remove-dups [1 2 2 2 1 1 1 1 3 3 3 3 2 2 1 1])))
+    [1 2 3] (remove-dups [1 2 2 2 1 1 1 1 3 3 3 3 2 2 1 1])
+    (range 50) (remove-dups (range 50))))
+
+(deftest test-compose-funcs
+  (are [x y] (= x y)
+    5 ((composer count last) ["aaaa" "bbbbb" "ccccc"])
+    100 ((composer (partial + 99) first) [1 :a :x])
+    false ((composer empty? first reverse) [[] [2] [444]])))
