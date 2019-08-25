@@ -114,3 +114,8 @@
     :map (black-box-testing {:a 1})
     :vec (black-box-testing [])
     :list (black-box-testing '(1 2 3))))
+
+(deftest test-filter-squares
+  (are [x y] (= x y)
+    "16,144" (filter-squares "12,16,45,144,991")
+    "" (filter-squares "12,13,14")))

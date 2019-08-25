@@ -1,4 +1,5 @@
 (ns f4clojure.core
+  (:require [clojure.string :as s])
   (:gen-class))
 
 ;; http://www.4clojure.com/problem/19
@@ -228,3 +229,21 @@
     (is-set? arg) :set
     (is-vec? arg) :vec
     (is-list? arg) :list))
+
+(defn perfect-square?
+  [n]
+  (loop [current 1]
+    (cond
+      (= (* current current) n) true
+      (>= current (quot n 2)) false
+      :default (recur (inc current)))))
+
+;; http://www.4clojure.com/problem/74
+(defn filter-squares
+  [s]
+  (let [numbers (map #(Integer/parseInt %) (s/split s #","))]
+    (->>
+     numbers
+     (filter perfect-square?)
+     (interpose ",")
+     (apply str))))
