@@ -69,3 +69,13 @@
     '([1 2 3] [:a :b :c]) (split-by-type [1 :a 2 :b 3 :c])
     '([:a :b] ["foo" "bar"]) (split-by-type [:a "foo"  "bar" :b])
     '([[1 2] [3 4]] [:a :b] [5 6]) (split-by-type [[1 2] :a [3 4] 5 6 :b])))
+
+(deftest test-count-items
+  (are [x y] (= x y)
+    {1 1 2 2 3 3 4 4} (count-items [1 2 2 3 3 3 4 4 4 4])
+    {} (count-items [])))
+
+(deftest test-remove-dups
+  (are [x y] (= x y)
+    [1 2] (remove-dups [1 2 1 2 1 2 1 1 1 1 1 2 2 2 2 2])
+    [1 2 3] (remove-dups [1 2 2 2 1 1 1 1 3 3 3 3 2 2 1 1])))

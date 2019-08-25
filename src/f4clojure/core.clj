@@ -103,3 +103,25 @@
         (recur
          r
          (assoc type-map t (conj items-for-type f)))))))
+
+(defn count-items
+  [items]
+  (loop [items items freq {}]
+    (if (empty? items)
+      freq
+      (let [f (first items)
+            r (rest items)
+            current-count (or (freq f) 0)]
+        (recur r (assoc freq f (inc current-count)))))))
+
+(defn remove-dups
+  [items]
+  (loop [items items uniques []]
+    (if (empty? items)
+      uniques
+      (let [f (first items)
+            r (rest items)
+            f-in-uniques (some #(= f %) uniques)] ; contains? works with indexes, not what I expected!
+        (if f-in-uniques
+          (recur r uniques)
+          (recur r (conj uniques f)))))))
