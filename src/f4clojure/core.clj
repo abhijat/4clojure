@@ -120,8 +120,8 @@
     (if (empty? items)
       uniques
       (let [f (first items)
-            r (rest items)
-            f-in-uniques (some #(= f %) uniques)] ; contains? works with indexes, not what I expected!
-        (if f-in-uniques
-          (recur r uniques)
-          (recur r (conj uniques f)))))))
+            f-in-uniques (some #(= f %) uniques) ; contains? works with indexes, not what I expected!
+            new-uniques (if f-in-uniques uniques (conj uniques f))]
+        (recur (rest items) new-uniques)))))
+
+          
