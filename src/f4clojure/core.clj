@@ -247,3 +247,11 @@
      (filter perfect-square?)
      (interpose ",")
      (apply str))))
+
+;; http://www.4clojure.com/problem/76
+(defn my-trampoline
+  [f & args]
+  (loop [ret (apply f args)]
+    (if ((complement fn?) ret)
+      ret
+      (recur (ret)))))
