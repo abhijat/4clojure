@@ -107,3 +107,10 @@
   (are [x y] (= x y)
     [2 3 5 7] (n-primes 10)
     [2 3 5 7 11 13 17 19] (n-primes 20)))
+
+(deftest test-black-box
+  (are [x y] (= x y)
+    :set (black-box-testing #{1 :a})
+    :map (black-box-testing {:a 1})
+    :vec (black-box-testing [])
+    :list (black-box-testing '(1 2 3))))

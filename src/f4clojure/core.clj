@@ -185,3 +185,46 @@
       primes
       (recur (dec n) (inc current)
              (if (prime? current) (conj primes current) primes)))))
+
+(defn is-map?
+  "Tries to infer if the argument is a map by using conj with a single element
+  which should fail with exception"
+  [arg]
+  (try
+    (conj arg 0)
+    false ; if conj worked, its not a map
+    (catch IllegalArgumentException e true))) ; it is a map
+
+(defn is-set?
+  "Tries to infer if the arg is a set by adding the first element again
+  and confirming that the size does not change"
+  [arg]
+  (let [f (first arg)
+        size (count arg)]
+    (= (count (conj arg f)) size)))
+
+(defn is-vec?
+  "Tries to infer if we have a vec by checking that conj appends
+  this can also succeed for set randomly but we do the test in sequence
+  inserts two random numbers so we do not fail on an empty list becoming a single elem list where last == first"
+  [arg]
+  (let [a (rand-int 10000)
+        b (rand-int 10000)
+        c (conj arg a b)]
+    (= (last c) b)))
+
+(defn is-list?
+  [arg]
+  (let [a (rand-int 10000)
+        b (rand-int 10000)
+        c (conj arg a b)]
+    (= (first c) b)))
+
+;; http://www.4clojure.com/problem/65
+(defn black-box-testing
+  [arg]
+  (cond
+    (is-map? arg) :map
+    (is-set? arg) :set
+    (is-vec? arg) :vec
+    (is-list? arg) :list))
