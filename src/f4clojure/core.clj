@@ -77,16 +77,7 @@
 ;; http://www.4clojure.com/problem/50
 (defn split-by-type
   [items]
-  (loop [items items type-map {}]
-    (if (empty? items)
-      (vals type-map)
-      (let [f (first items)
-            r (rest items)
-            t (type f)
-            items-for-type (or (type-map t) [])]
-        (recur
-         r
-         (assoc type-map t (conj items-for-type f)))))))
+  (vals (group-by type items)))
 
 ;; http://www.4clojure.com/problem/55
 (defn count-items
