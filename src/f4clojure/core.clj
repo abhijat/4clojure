@@ -82,13 +82,10 @@
 ;; http://www.4clojure.com/problem/55
 (defn count-items
   [items]
-  (loop [items items freq {}]
-    (if (empty? items)
-      freq
-      (let [f (first items)
-            r (rest items)
-            current-count (or (freq f) 0)]
-        (recur r (assoc freq f (inc current-count)))))))
+  (->>
+   items
+   (group-by identity)
+   (#(zipmap (keys %) (map count (vals %))))))
 
 ;; http://www.4clojure.com/problem/56
 (defn remove-dups
