@@ -174,21 +174,14 @@
 ;; http://www.4clojure.com/problem/74
 (defn filter-squares
   [s]
-  (letfn [(square?
-            [n]
-            (loop [current 1]
-              (cond
-                (= (* current current) n) true
-                (>= current (quot n 2)) false
-                :default (recur (inc current)))))]
-    (let [numbers (map
-                   #(Integer/parseInt %)
-                   (s/split s #","))]
-      (->>
-       numbers
-       (filter square?)
-       (interpose ",")
-       (apply str)))))
+  (letfn [(square? [n] (some #(= (* % %) n) (range (quot n 2))))]
+    (->>
+     s
+     (#(s/split % #","))
+     (map #(Integer/parseInt %))
+     (filter square?)
+     (interpose ",")
+     (apply str))))
 
 ;; http://www.4clojure.com/problem/76
 (defn my-trampoline
