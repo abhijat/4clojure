@@ -62,23 +62,17 @@
 
 ;; http://www.4clojure.com/problem/43
 (defn reverse-interleave
-  [items num-chunks]
-  ;; Start with num-chunks empty vectors, which will hold the items later
-  (loop [items items
-         chunks (repeat num-chunks [])]
-    (if (empty? items)
-      chunks
-      ;; split-at lets us pick off the items which need to be pushed into chunks
-      (let [[first-n rest-n] (split-at num-chunks items)]
-        (recur
-         rest-n
-         ;; map-indexed will map over a collection with index
-         ;; we are basically taking the nth item from first-n
-         ;; and pushing it to the nth chunk
-         (map-indexed
-          (fn [index item]
-            (let [to-conj (nth first-n index nil)]
-              (conj item to-conj))) chunks))))))
+  "First we create a list of sub-lists, such that each sub-list starts at
+  further and further indices. Then we select those sublists that can give
+  us the right items (the first chunk-size).
+
+  Finally we call take-nth on each of these sub-lists to give the result.
+  "
+  [items chunk-size]
+  (let [items-size (count items)
+        sub-lists (map #(drop % items) (range items-size))
+        sub-lists-large-enough (take chunk-size sub-lists)]
+    (map #(take-nth chunk-size %) sub-lists-large-enough)))
 
 ;; http://www.4clojure.com/problem/50
 (defn split-by-type

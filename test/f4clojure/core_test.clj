@@ -60,7 +60,7 @@
 
 (deftest test-reverse-interleave
   (are [x y] (= x y)
-    '([1 4 7] [2 5 8] [3 6 nil]) (reverse-interleave [1 2 3 4 5 6 7 8] 3)
+    '([1 4 7] [2 5 8] [3 6 9]) (reverse-interleave (range 1 10) 3)
     '((0 5) (1 6) (2 7) (3 8) (4 9)) (reverse-interleave (range 10) 5)))
 
 (deftest test-type-split
