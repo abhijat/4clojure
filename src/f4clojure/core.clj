@@ -15,34 +15,22 @@
 ;; http://www.4clojure.com/problem/21
 (defn nth-elem
   [elems n]
-  (loop [elems elems n n]
-    (if (= n 0)
-      (first elems)
-      (recur (rest elems) (dec n)))))
+  (if (< (count elems) n)
+    nil
+    (last (take (inc n) elems))))
 
 ;; http://www.4clojure.com/problem/22
 (defn my-count
   [elems]
-  (loop [elems elems counter 0]
-    (if (empty? elems)
-      counter
-      (recur (rest elems) (inc counter)))))
+  (reduce (fn [a b] (inc a)) 0 elems))
 
 ;; http://www.4clojure.com/problem/23
 (defn reverse-seq
   [s]
-  (loop [s s rev []]
-    (if (empty? s)
-      rev
-      (recur (rest s) (cons (first s) rev)))))
+  (reduce #(cons %2 %1) [] s))
 
 ;; http://www.4clojure.com/problem/24
-(defn sum-up
-  [s]
-  (loop [s s total 0]
-    (if (empty? s)
-      total
-      (recur (rest s) (+ (first s) total)))))
+(defn sum-up [s] (apply + s))
 
 ;; http://www.4clojure.com/problem/46
 (defn flip-order
@@ -61,21 +49,16 @@
 
 (defmethod rotation :counter-clock-wise
   [s times]
-  (loop [s s times times]
-    (if (= 0 times)
-      s
-      (recur
-       (conj (vec (rest s)) (first s))
-       (dec times)))))
+  (flatten (conj
+            (vec (drop times s))
+            (take times s))))
 
 (defmethod rotation :clock-wise
   [s times]
-  (loop [s s times times]
-    (if (= 0 times)
-      s
-      (recur
-       (cons (last s) (butlast s))
-       (inc times)))))
+  (let [times (- times)]
+    (flatten (cons
+              (take-last times s)
+              (drop-last times s)))))
 
 ;; http://www.4clojure.com/problem/43
 (defn reverse-interleave

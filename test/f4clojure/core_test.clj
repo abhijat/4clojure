@@ -30,8 +30,7 @@
   (are [x y] (= x y)
     1 (my-count [1])
     0 (my-count [])
-    4 (my-count [1 2 2 2])
-    0 (my-count nil)))
+    4 (my-count [1 2 2 2])))
 
 
 (deftest test-reverse-seq
