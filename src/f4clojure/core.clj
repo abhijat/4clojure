@@ -5,11 +5,7 @@
 ;; http://www.4clojure.com/problem/19
 (defn last-element-in-sequence
   [sequence] 
- (loop [f (first sequence)
-         r (rest sequence)]
-    (if (empty? r)
-      f
-      (recur (first r) (rest r)))))
+  (reduce #(identity %2) nil sequence))
 
 ;; http://www.4clojure.com/problem/20
 (defn penultimate
