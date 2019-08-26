@@ -230,23 +230,24 @@
     (is-vec? arg) :vec
     (is-list? arg) :list))
 
-(defn perfect-square?
-  [n]
-  (loop [current 1]
-    (cond
-      (= (* current current) n) true
-      (>= current (quot n 2)) false
-      :default (recur (inc current)))))
-
 ;; http://www.4clojure.com/problem/74
 (defn filter-squares
   [s]
-  (let [numbers (map #(Integer/parseInt %) (s/split s #","))]
-    (->>
-     numbers
-     (filter perfect-square?)
-     (interpose ",")
-     (apply str))))
+  (letfn [(square?
+            [n]
+            (loop [current 1]
+              (cond
+                (= (* current current) n) true
+                (>= current (quot n 2)) false
+                :default (recur (inc current)))))]
+    (let [numbers (map
+                   #(Integer/parseInt %)
+                   (s/split s #","))]
+      (->>
+       numbers
+       (filter square?)
+       (interpose ",")
+       (apply str)))))
 
 ;; http://www.4clojure.com/problem/76
 (defn my-trampoline
