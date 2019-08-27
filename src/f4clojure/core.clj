@@ -101,14 +101,11 @@
 ;; http://www.4clojure.com/problem/58
 (defn composer
   [& funcs]
-  (loop [composed (last funcs)
-         funcs (butlast funcs)]
-    (if (empty? funcs)
-      composed
-      (recur
-       (fn [& args]
-         ((last funcs) (apply composed args)))
-       (butlast funcs)))))
+  (let [funcs (reverse funcs)]
+    (reduce (fn [composed f]
+              (fn [& args] (f (apply composed args))))
+            (first funcs)
+            (rest funcs))))
 
 ;; http://www.4clojure.com/problem/54
 (defn part-seq
