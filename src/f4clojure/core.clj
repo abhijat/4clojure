@@ -90,13 +90,13 @@
 ;; http://www.4clojure.com/problem/56
 (defn remove-dups
   [items]
-  (loop [items items uniques []]
-    (if (empty? items)
-      uniques
-      (let [f (first items)
-            f-in-uniques (some #(= f %) uniques) ; contains? works with indexes, not what I expected!
-            new-uniques (if f-in-uniques uniques (conj uniques f))]
-        (recur (rest items) new-uniques)))))
+  (reduce
+   (fn [uniques item]
+     (if (some #(= item %) uniques)
+       uniques
+       (conj uniques item)))
+   []
+   items))
 
 ;; http://www.4clojure.com/problem/58
 (defn composer
@@ -189,6 +189,4 @@
   (let [a (apply f args)]
     (some
      #(if (not (fn? %)) %)
-     (iterate
-      #(if (fn? %) (%) %)
-      a))))
+     (iterate #(if (fn? %) (%) %) a))))
