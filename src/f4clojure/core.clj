@@ -186,7 +186,9 @@
 ;; http://www.4clojure.com/problem/76
 (defn my-trampoline
   [f & args]
-  (loop [ret (apply f args)]
-    (if ((complement fn?) ret)
-      ret
-      (recur (ret)))))
+  (let [a (apply f args)]
+    (some
+     #(if (not (fn? %)) %)
+     (iterate
+      (fn [f] (if (fn? f) (f) f))
+      a))))
