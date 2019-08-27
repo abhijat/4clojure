@@ -190,5 +190,5 @@
     (some
      #(if (not (fn? %)) %)
      (iterate
-      (fn [f] (if (fn? f) (f) f))
+      #(if (fn? %) (%) %)
       a))))
