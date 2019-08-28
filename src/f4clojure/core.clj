@@ -188,6 +188,7 @@
      #(if (not (fn? %)) %)
      (iterate #(if (fn? %) (%) %) a))))
 
+;; http://www.4clojure.com/problem/77
 (defn anagram-finder
   [words]
   (set (->>
@@ -196,3 +197,16 @@
         vals
         (map set)
         (filter #(> (count %) 1)))))
+
+;; http://www.4clojure.com/problem/60
+(defn seq-reduce
+  "Only got this to work with lazy sequences after looking at code for reductions function"
+  ([f args]
+   (seq-reduce f (first args) (rest args)))
+  ([f elem args]
+   (lazy-seq (cons elem
+                   (when-let [s (seq args)]
+                     (seq-reduce f
+                                 (f elem (first s))
+                                 (rest s)))))))
+
