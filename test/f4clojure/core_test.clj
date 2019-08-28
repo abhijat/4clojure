@@ -132,3 +132,8 @@
              x
              #(foo x (+ 2 y))))]
       (my-trampoline foo [] 1))))
+
+(deftest test-anagram-finder
+  (are [x y] (= x y)
+    #{#{"meat" "team" "mate"}} (anagram-finder ["meat" "mat" "team" "mate" "eat"])
+    #{#{"veer" "ever"} #{"lake" "kale"} #{"mite" "item"}} (anagram-finder ["veer" "lake" "item" "kale" "mite" "ever"])))

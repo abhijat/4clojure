@@ -12,7 +12,7 @@
   [elems]
   (nth (reverse elems) 1 nil))
 
-;; http://www.4clojure.com/problem/21
+;; http://www.4clojure.com/problem/12
 (defn nth-elem
   [elems n]
   (if (< (count elems) n)
@@ -187,3 +187,12 @@
     (some
      #(if (not (fn? %)) %)
      (iterate #(if (fn? %) (%) %) a))))
+
+(defn anagram-finder
+  [words]
+  (set (->>
+        words
+        (group-by set)
+        vals
+        (map set)
+        (filter #(> (count %) 1)))))
