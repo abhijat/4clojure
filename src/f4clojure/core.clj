@@ -219,3 +219,19 @@
 ;; http://www.4clojure.com/problem/80
 (defn perfect? [n]
   (= (sum-of-divisors n) n))
+
+;; http://www.4clojure.com/problem/69
+(defn merge-maps [f & maps]
+  (reduce
+   (fn [merged-map m]
+     (let [common-keys (clojure.set/intersection
+                        (set (keys merged-map))
+                        (set (keys m)))
+           pre-merge (conj merged-map m)]	;; start with a naive merge of all keys
+       (reduce
+        (fn [final-map key]			;; for all common keys rewrite with call to f
+          (assoc final-map key (f (merged-map key) (m key))))
+        pre-merge
+        common-keys)))
+   {}
+   maps))
