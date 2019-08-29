@@ -143,3 +143,9 @@
     [0 1 3 6 10] (take 5 (seq-reduce + (range)))
     [[1] [1 2] [1 2 3] [1 2 3 4]] (seq-reduce conj [1] [2 3 4])
     (reduce * 2 [3 4 5]) (last (seq-reduce * 2 [3 4 5]))))
+
+(deftest test-perfect
+  (are [x y] (= x y)
+    true (perfect? 6)
+    true (perfect? 496)
+    false (perfect? 500)))

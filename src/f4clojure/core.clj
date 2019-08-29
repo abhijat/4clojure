@@ -210,3 +210,12 @@
                                  (f elem (first s))
                                  (rest s)))))))
 
+(defn sum-of-divisors [n]
+  (let [bounds (range 1 (inc (quot n 2)))]
+    (apply + (reduce (fn [divisors x] (if (= 0 (rem n x)) (conj divisors x) divisors))
+                     #{}
+                     bounds))))
+
+;; http://www.4clojure.com/problem/80
+(defn perfect? [n]
+  (= (sum-of-divisors n) n))
