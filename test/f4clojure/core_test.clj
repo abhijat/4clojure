@@ -166,3 +166,9 @@
     16 (euler-totient 40)
     60 (euler-totient 99)
     4 (euler-totient 10)))
+
+(deftest test-happy
+  (are [x y] (= x y)
+    true (happy? 7)
+    false (happy? 2)
+    true (happy? 986543210)))

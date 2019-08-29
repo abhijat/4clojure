@@ -259,3 +259,18 @@
   (if (= 1 n)
     1
     (count (filter #(co-prime? n %) (range 1 n)))))
+
+;; http://www.4clojure.com/problem/86
+(defn happy? [n]
+  (letfn [(split-num [n]
+            (loop [n n coll []]
+              (if (= 0 n)
+                coll
+                (recur (quot n 10) (cons (rem n 10) coll)))))]
+    (loop [n n cache #{}]
+      (cond
+        (= n 1) true
+        (contains? cache n) false
+        :else (recur (apply +
+                      (map #(* % %)
+                           (split-num n))) (conj cache n))))))
