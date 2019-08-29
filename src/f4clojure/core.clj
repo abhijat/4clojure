@@ -263,10 +263,12 @@
 ;; http://www.4clojure.com/problem/86
 (defn happy? [n]
   (letfn [(split-num [n]
-            (loop [n n coll []]
-              (if (= 0 n)
-                coll
-                (recur (quot n 10) (cons (rem n 10) coll)))))]
+            (->>
+             n
+             (iterate #(quot % 10))
+             (take-while pos?)
+             (map #(mod % 10))
+             reverse))]
     (loop [n n cache #{}]
       (cond
         (= n 1) true
