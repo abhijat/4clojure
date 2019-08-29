@@ -235,3 +235,13 @@
         common-keys)))
    {}
    maps))
+
+;; http://www.4clojure.com/problem/102
+(defn to-camel-case [s]
+  (let [words (->>
+               s
+               (partition-by #(= \- %))
+               (filter #(not= '(\-) %))
+               (map #(apply str %)))]
+    (str (first words)
+         (apply str (map s/capitalize (rest words))))))

@@ -154,3 +154,9 @@
   (are [x y] (= x y)
     {:a 4, :b 6, :c 20} (merge-maps * {:a 2, :b 3, :c 4} {:a 2} {:b 2} {:c 5})
     {1 7, 2 10, 3 15} (merge-maps - {1 10, 2 20} {1 3, 2 10, 3 15})))
+
+(deftest test-camel-case
+  (are [x y] (= x y)
+    "something" (to-camel-case "something")
+    "multiWordKey" (to-camel-case "multi-word-key")
+    "leaveMeAlone" (to-camel-case "leaveMeAlone")))
