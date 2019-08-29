@@ -245,3 +245,17 @@
                (map #(apply str %)))]
     (str (first words)
          (apply str (map s/capitalize (rest words))))))
+
+(defn gcd [a b]
+  (if (= 0 a)
+    b
+    (recur (mod b a) a)))
+
+(defn co-prime? [a b]
+  (= 1 (gcd a b)))
+
+;; http://www.4clojure.com/problem/75
+(defn euler-totient [n]
+  (if (= 1 n)
+    1
+    (count (filter #(co-prime? n %) (range 1 n)))))

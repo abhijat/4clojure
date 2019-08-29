@@ -160,3 +160,9 @@
     "something" (to-camel-case "something")
     "multiWordKey" (to-camel-case "multi-word-key")
     "leaveMeAlone" (to-camel-case "leaveMeAlone")))
+
+(deftest test-totient
+  (are [x y] (= x y)
+    16 (euler-totient 40)
+    60 (euler-totient 99)
+    4 (euler-totient 10)))
