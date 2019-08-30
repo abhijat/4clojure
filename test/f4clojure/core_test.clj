@@ -209,3 +209,9 @@
     #{#{0 3} #{1 4} #{2 5}} (equivalence #(rem % 3) #{0 1 2 3 4 5 })
     #{#{0} #{1} #{2} #{3} #{4}} (equivalence identity #{0 1 2 3 4})
     #{#{0 1 2 3 4}} (equivalence (constantly true) #{0 1 2 3 4})))
+
+(deftest test-map-with-vals
+  (are [x y] (= x y)
+    {:a [1 2 3], :b [], :c [4]} (map-with-vals [:a 1 2 3 :b :c 4])
+    {:a [1], :b [2]} (map-with-vals [:a 1, :b 2])
+    {:a [1]} (map-with-vals [:a 1])))

@@ -314,3 +314,14 @@
 ;; http://www.4clojure.com/problem/98
 (defn equivalence [f s]
   (set (map set (vals (group-by f s)))))
+
+;; http://www.4clojure.com/problem/105
+(defn map-with-vals [coll]
+  (reduce (fn [m e]
+            (if (keyword? e)
+              (assoc m e [])
+              (let [[k v] (last m)
+                    new-v (conj v e)]
+                (assoc m k new-v))))
+          (array-map)
+          coll))
