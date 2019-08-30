@@ -195,3 +195,10 @@
     true (balanced? 89089)
     [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101]
     (take 20 (filter balanced? (range)))))
+
+(deftest test-powerset
+  (are [x y] (= x y)
+    #{#{1 :a} #{:a} #{} #{1}} (power-set #{1 :a})
+    #{#{}} (power-set #{})
+    #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}} (power-set #{1 2 3})
+    1024 (count (power-set (into #{} (range 10))))))

@@ -300,3 +300,13 @@
     (if (= mid 0)
       true
       (= (apply + top) (apply + bottom)))))
+
+;; http://www.4clojure.com/problem/85
+(defn power-set [s]
+  "Power set algorithm from wikipedia"
+  (if (empty? s)
+    #{s}
+    (let [f (first s)
+          r (disj s f)
+          rs (power-set r)]
+      (apply conj rs (map #(conj % f) rs)))))
