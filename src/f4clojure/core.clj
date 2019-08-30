@@ -275,4 +275,11 @@
         (contains? cache n) false
         :else (recur (apply +
                       (map #(* % %)
-                           (split-num n))) (conj cache n))))))
+                           (split-num n)))
+                     (conj cache n))))))
+
+;; http://www.4clojure.com/problem/78
+(defn re-trampoline [f & args]
+  (if (not (fn? f))
+    f
+    (recur (apply f args) nil)))

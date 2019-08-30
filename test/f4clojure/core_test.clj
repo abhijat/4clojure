@@ -172,3 +172,14 @@
     true (happy? 7)
     false (happy? 2)
     true (happy? 986543210)))
+
+(deftest test-re-trampoline
+  (are [x y] (= x y)
+    82 (letfn [(triple [x] #(sub-two (* 3 x)))
+            (sub-two [x] #(stop?(- x 2)))
+            (stop? [x] (if (> x 50) x #(triple x)))]
+         (re-trampoline triple 2))
+    [true false true false true false]
+    (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))
+            (my-odd? [x] (if (zero? x) false #(my-even? (dec x))))]
+      (map (partial re-trampoline my-even?) (range 6)))))
