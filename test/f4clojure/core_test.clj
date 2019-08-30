@@ -202,3 +202,10 @@
     #{#{}} (power-set #{})
     #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}} (power-set #{1 2 3})
     1024 (count (power-set (into #{} (range 10))))))
+
+(deftest test-equivalence
+  (are [x y] (= x y)
+    #{#{0} #{1 -1} #{2 -2}} (equivalence #(* % %) #{-2 -1 0 1 2})
+    #{#{0 3} #{1 4} #{2 5}} (equivalence #(rem % 3) #{0 1 2 3 4 5 })
+    #{#{0} #{1} #{2} #{3} #{4}} (equivalence identity #{0 1 2 3 4})
+    #{#{0 1 2 3 4}} (equivalence (constantly true) #{0 1 2 3 4})))

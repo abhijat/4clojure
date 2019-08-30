@@ -310,3 +310,7 @@
           r (disj s f)
           rs (power-set r)]
       (apply conj rs (map #(conj % f) rs)))))
+
+;; http://www.4clojure.com/problem/98
+(defn equivalence [f s]
+  (set (map set (vals (group-by f s)))))
