@@ -325,3 +325,12 @@
                 (assoc m k new-v))))
           (array-map)
           coll))
+
+;; http://www.4clojure.com/problem/137
+(defn seq-base [n base]
+  (loop [nums (list (rem n base))
+         n (quot n base)]
+    (if (pos? n)
+      (recur (cons (rem n base) nums)
+             (quot n base))
+      nums)))
