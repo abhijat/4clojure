@@ -183,3 +183,15 @@
     (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))
             (my-odd? [x] (if (zero? x) false #(my-even? (dec x))))]
       (map (partial re-trampoline my-even?) (range 6)))))
+
+(deftest test-balanced
+  (are [x y] (= x y)
+    true (balanced? 11)
+    true (balanced? 121)
+    false (balanced? 123)
+    true (balanced? 0)
+    false (balanced? 88099)
+    true (balanced? 89098)
+    true (balanced? 89089)
+    [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101]
+    (take 20 (filter balanced? (range)))))

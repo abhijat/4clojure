@@ -283,3 +283,20 @@
   (if (not (fn? f))
     f
     (recur (apply f args) nil)))
+
+;; http://www.4clojure.com/problem/115
+(defn balanced? [n]
+  (let [pieces (->>
+                (iterate #(quot % 10) n)
+                (take-while pos?)
+                (map #(mod % 10))
+                reverse)
+        mid (quot (count pieces) 2)
+        [top bottom] (split-at mid pieces)
+        bottom (if (= (count top)
+                      (count bottom))
+                 bottom
+                 (rest bottom))]
+    (if (= mid 0)
+      true
+      (= (apply + top) (apply + bottom)))))
