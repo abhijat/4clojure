@@ -277,6 +277,63 @@
                       (map #(* % %)
                            (split-num n))) (conj cache n))))))
 
+;; http://www.4clojure.com/problem/78
+(defn re-trampoline [f & args]
+  (if (not (fn? f))
+    f
+    (recur (apply f args) nil)))
+
+;; http://www.4clojure.com/problem/115
+(defn balanced? [n]
+  (let [pieces (->>
+                (iterate #(quot % 10) n)
+                (take-while pos?)
+                (map #(mod % 10))
+                reverse)
+        mid (quot (count pieces) 2)
+        [top bottom] (split-at mid pieces)
+        bottom (if (= (count top)
+                      (count bottom))
+                 bottom
+                 (rest bottom))]
+    (if (= mid 0)
+      true
+      (= (apply + top) (apply + bottom)))))
+
+;; http://www.4clojure.com/problem/85
+(defn power-set [s]
+  "Power set algorithm from wikipedia"
+  (if (empty? s)
+    #{s}
+    (let [f (first s)
+          r (disj s f)
+          rs (power-set r)]
+      (apply conj rs (map #(conj % f) rs)))))
+
+;; http://www.4clojure.com/problem/98
+(defn equivalence [f s]
+  (set (map set (vals (group-by f s)))))
+
+;; http://www.4clojure.com/problem/105
+(defn map-with-vals [coll]
+  (reduce (fn [m e]
+            (if (keyword? e)
+              (assoc m e [])
+              (let [[k v] (last m)
+                    new-v (conj v e)]
+                (assoc m k new-v))))
+          (array-map)
+          coll))
+
+;; http://www.4clojure.com/problem/137
+(defn seq-base [n base]
+  (loop [nums (list (rem n base))
+         n (quot n base)]
+    (if (pos? n)
+      (recur (cons (rem n base) nums)
+             (quot n base))
+      nums)))
+
 ;; http://www.4clojure.com/problem/110
 (defn pronounce [coll]
   (letfn [(make-count-vec [coll]

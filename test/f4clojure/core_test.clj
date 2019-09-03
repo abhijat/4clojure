@@ -173,6 +173,57 @@
     false (happy? 2)
     true (happy? 986543210)))
 
+(deftest test-re-trampoline
+  (are [x y] (= x y)
+    82 (letfn [(triple [x] #(sub-two (* 3 x)))
+            (sub-two [x] #(stop?(- x 2)))
+            (stop? [x] (if (> x 50) x #(triple x)))]
+         (re-trampoline triple 2))
+    [true false true false true false]
+    (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))
+            (my-odd? [x] (if (zero? x) false #(my-even? (dec x))))]
+      (map (partial re-trampoline my-even?) (range 6)))))
+
+(deftest test-balanced
+  (are [x y] (= x y)
+    true (balanced? 11)
+    true (balanced? 121)
+    false (balanced? 123)
+    true (balanced? 0)
+    false (balanced? 88099)
+    true (balanced? 89098)
+    true (balanced? 89089)
+    [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101]
+    (take 20 (filter balanced? (range)))))
+
+(deftest test-powerset
+  (are [x y] (= x y)
+    #{#{1 :a} #{:a} #{} #{1}} (power-set #{1 :a})
+    #{#{}} (power-set #{})
+    #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}} (power-set #{1 2 3})
+    1024 (count (power-set (into #{} (range 10))))))
+
+(deftest test-equivalence
+  (are [x y] (= x y)
+    #{#{0} #{1 -1} #{2 -2}} (equivalence #(* % %) #{-2 -1 0 1 2})
+    #{#{0 3} #{1 4} #{2 5}} (equivalence #(rem % 3) #{0 1 2 3 4 5 })
+    #{#{0} #{1} #{2} #{3} #{4}} (equivalence identity #{0 1 2 3 4})
+    #{#{0 1 2 3 4}} (equivalence (constantly true) #{0 1 2 3 4})))
+
+(deftest test-map-with-vals
+  (are [x y] (= x y)
+    {:a [1 2 3], :b [], :c [4]} (map-with-vals [:a 1 2 3 :b :c 4])
+    {:a [1], :b [2]} (map-with-vals [:a 1, :b 2])
+    {:a [1]} (map-with-vals [:a 1])))
+
+(deftest test-seq-base
+  (are [x y] (= x y)
+    [1 2 3 4 5 0 1] (seq-base 1234501 10)
+    [0] (seq-base 0 11)
+    [1 0 0 1] (seq-base 9 2)
+    [1 0] (let [n (rand-int 100000)](seq-base n n))
+    [16 18 5 24 15 1] (seq-base Integer/MAX_VALUE 42)))
+
 (deftest test-pronounce
   (are [x y] (= x y)
     [[1 1] [2 1] [1 2 1 1]] (take 3 (pronounce [1]))
