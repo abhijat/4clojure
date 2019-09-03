@@ -230,3 +230,22 @@
     [3 1 2 4] (first (pronounce [1 1 1 4 4]))
     [1 1 1 3 2 1 3 2 1 1] (nth (pronounce [1]) 6)
     338 (count (nth (pronounce [3 2]) 15))))
+
+(deftest test-de-curry
+  (are [x y] (= x y)
+    10 ((de-curry (fn [a]
+                    (fn [b]
+                      (fn [c]
+                        (fn [d]
+                          (+ a b c d))))))
+        1 2 3 4)
+    24 ((de-curry (fn [a]
+                    (fn [b]
+                      (fn [c]
+                        (fn [d]
+                          (* a b c d))))))
+        1 2 3 4)
+    25 ((de-curry (fn [a]
+                    (fn [b]
+                      (* a b))))
+        5 5)))

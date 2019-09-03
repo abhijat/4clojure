@@ -341,3 +341,10 @@
           (make-pronounce [coll]
             (flatten (map make-count-vec (partition-by identity coll))))]
     (rest (iterate make-pronounce coll))))
+
+;; http://www.4clojure.com/problem/158
+(defn de-curry [curried]
+  (partial (fn [& args]
+             (reduce (fn [f arg] (f arg))
+                     (curried (first args))
+                     (rest args)))))
