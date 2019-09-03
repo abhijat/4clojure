@@ -362,11 +362,11 @@
   "Takes the first element of first collection and drops all elements of other colls
    less than the first. Then if all firsts match we return, otherwise recur on the remaining
    lists."
-  (let [head-coll (first colls)
-        head (first head-coll)
-        tails (map (fn [coll] (drop-while #(< % head) coll))
-                   (rest colls))
-        heads (map first tails)]
-    (if (apply = head heads)
-      head
-      (recur (apply list (rest head-coll) tails)))))
+  (when-let [head (first (first colls))]
+    (let [head-coll (first colls)
+          tails (map (fn [coll] (drop-while #(< % head) coll))
+                     (rest colls))
+          heads (map first tails)]
+      (if (apply = head heads)
+        head
+        (recur (apply list (rest head-coll) tails))))))
