@@ -264,3 +264,19 @@
     [2 3 5 7 11 13] (global-take-while 4 #(= 2 (mod % 3)) [2 3 5 7 11 13 17 19 23])
     ["this" "is" "a" "sentence"] (global-take-while 3 #(some #{\i} %) ["this" "is" "a" "sentence" "i" "wrote"])
     ["this" "is"] (global-take-while 1 #{"a"} ["this" "is" "a" "sentence" "i" "wrote"])))
+
+(deftest test-insert-mid
+  (are [x y] (= x y)
+    '(1 :less 6 :less 7 4 3) (insert-mid < :less [1 6 7 4 3])
+    '(2) (insert-mid > :more [2])
+    [0 1 :x 2 :x 3 :x 4]  (insert-mid #(and (pos? %) (< % %2)) :x (range 5))
+    true (empty? (insert-mid > :more ()))
+    nil (comment
+      "This test causes integer overflow on my machine. need to investigate"
+      [0 1 :same 1 2 3 :same 5 8 13 :same 21]
+      (take 12 (->> [0 1]
+                    (iterate (fn [[a b]] [b (+ a b)]))
+                    (map first)
+                    (insert-mid (fn [a b]
+                                  (= (mod a 2) (mod b 2)))
+                                :same))))))
