@@ -249,3 +249,12 @@
                     (fn [b]
                       (* a b))))
         5 5)))
+
+(deftest test-lazy-search
+  (are [x y] (= x y)
+    3 (lazy-search [3 4 5])
+    4 (lazy-search [1 2 3 4 5 6 7] [0.5 3/2 4 19])
+    7 (lazy-search (range) (range 0 100 7/6) [2 3 5 7 11 13])
+    64 (lazy-search (map #(* % % %) (range))
+                    (filter #(zero? (bit-and % (dec %))) (range))
+                    (iterate inc 20))))

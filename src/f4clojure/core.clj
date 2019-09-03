@@ -348,3 +348,25 @@
              (reduce (fn [f arg] (f arg))
                      (curried (first args))
                      (rest args)))))
+
+;; http://www.4clojure.com/problem/108
+(defn find-smallest-common [& colls]
+  (let [merged (apply interleave colls)
+        freq (frequencies merged)]
+    (some (fn [[k count-of-k]]
+            (if (= count-of-k (count colls)) k false))
+          freq)))
+
+;; http://www.4clojure.com/problem/108
+(defn lazy-search [& colls]
+  "Takes the first element of first collection and drops all elements of other colls
+   less than the first. Then if all firsts match we return, otherwise recur on the remaining
+   lists."
+  (let [head-coll (first colls)
+        head (first head-coll)
+        tails (map (fn [coll] (drop-while #(< % head) coll))
+                   (rest colls))
+        heads (map first tails)]
+    (if (apply = head heads)
+      head
+      (recur (apply list (rest head-coll) tails)))))
