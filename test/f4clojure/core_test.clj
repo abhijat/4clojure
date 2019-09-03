@@ -172,3 +172,10 @@
     true (happy? 7)
     false (happy? 2)
     true (happy? 986543210)))
+
+(deftest test-pronounce
+  (are [x y] (= x y)
+    [[1 1] [2 1] [1 2 1 1]] (take 3 (pronounce [1]))
+    [3 1 2 4] (first (pronounce [1 1 1 4 4]))
+    [1 1 1 3 2 1 3 2 1 1] (nth (pronounce [1]) 6)
+    338 (count (nth (pronounce [3 2]) 15))))

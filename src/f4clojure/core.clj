@@ -276,3 +276,11 @@
         :else (recur (apply +
                       (map #(* % %)
                            (split-num n))) (conj cache n))))))
+
+;; http://www.4clojure.com/problem/110
+(defn pronounce [coll]
+  (letfn [(make-count-vec [coll]
+            (vector (count coll) (first coll)))
+          (make-pronounce [coll]
+            (flatten (map make-count-vec (partition-by identity coll))))]
+    (rest (iterate make-pronounce coll))))
