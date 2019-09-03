@@ -370,3 +370,12 @@
       (if (apply = head heads)
         head
         (recur (apply list (rest head-coll) tails))))))
+
+;; http://www.4clojure.com/problem/114
+(defn global-take-while
+  [n pred coll]
+  (letfn [(countp [coll] (count (filter pred coll)))]
+    (butlast
+     (first
+      (filter #(= n (countp %))
+              (map #(take % coll) (range)))))))

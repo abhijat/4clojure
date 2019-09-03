@@ -258,3 +258,9 @@
     64 (lazy-search (map #(* % % %) (range))
                     (filter #(zero? (bit-and % (dec %))) (range))
                     (iterate inc 20))))
+
+(deftest test-global-take-while
+  (are [x y] (= x y)
+    [2 3 5 7 11 13] (global-take-while 4 #(= 2 (mod % 3)) [2 3 5 7 11 13 17 19 23])
+    ["this" "is" "a" "sentence"] (global-take-while 3 #(some #{\i} %) ["this" "is" "a" "sentence" "i" "wrote"])
+    ["this" "is"] (global-take-while 1 #{"a"} ["this" "is" "a" "sentence" "i" "wrote"])))
