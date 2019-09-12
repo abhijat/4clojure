@@ -381,13 +381,11 @@
 (defn insert-mid
   [pred v coll]
   (let [groups (partition 2 1 coll)
-        pushed (map (fn [[a b]]
+        [h & t] (map (fn [[a b]]
                       (if (pred a b)
                         (list a v b)
                         (list a b)))
                     groups)]
     (if (= 1 (count coll))
       coll
-      (reduce #(concat %1 (rest %2))
-              (first pushed)
-              (rest pushed)))))
+      (reduce #(concat %1 (rest %2)) h t))))
