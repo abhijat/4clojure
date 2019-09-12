@@ -201,14 +201,12 @@
 ;; http://www.4clojure.com/problem/60
 (defn seq-reduce
   "Only got this to work with lazy sequences after looking at code for reductions function"
-  ([f args]
-   (seq-reduce f (first args) (rest args)))
+  ([f [h & t]]
+   (seq-reduce f h t))
   ([f elem args]
    (lazy-seq (cons elem
-                   (when-let [s (seq args)]
-                     (seq-reduce f
-                                 (f elem (first s))
-                                 (rest s)))))))
+                   (when-let [[h & t] (seq args)]
+                     (seq-reduce f (f elem h) t))))))
 
 (defn sum-of-divisors [n]
   (let [bounds (range 1 (inc (quot n 2)))]
@@ -238,13 +236,12 @@
 
 ;; http://www.4clojure.com/problem/102
 (defn to-camel-case [s]
-  (let [words (->>
+  (let [[h & t] (->>
                s
                (partition-by #(= \- %))
                (filter #(not= '(\-) %))
                (map #(apply str %)))]
-    (str (first words)
-         (apply str (map s/capitalize (rest words))))))
+    (str h (apply str (map s/capitalize t)))))
 
 (defn gcd [a b]
   (if (= 0 a)
